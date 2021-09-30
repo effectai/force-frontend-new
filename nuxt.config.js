@@ -87,7 +87,8 @@ export default {
     },
     plugins: [
       { src: '~/plugins/axios.js' },
-      { src: '~/plugins/blockchain.js' }
+      { src: '~/plugins/blockchain.js' },
+      { src: '~/plugins/modal.js' } // TODO: Why the ~ and not the @
     ]
   },
 

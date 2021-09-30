@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <modal />
     <bsc-wallet />
     <eos-wallet />
     <error-modal />
