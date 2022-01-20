@@ -8,6 +8,11 @@
       :show="showInstructionsModal"
       @clicked="showInstructions"
     />
+    <sign-modal
+      v-if="campaign && campaign.info"
+      :show="signAutomaticallyPopup"
+      @clicked="showSignModal"
+    />
     <section class="section has-background-secondary py-1 has-text-white">
       <div class="container">
         <div class="columns is-vcentered">
@@ -63,6 +68,9 @@
     </section>
     <section class="py-3 has-background-light">
       <div class="container has-text-centered">
+        <button class="button is-info is-light" @click.prevent="showSignModal">
+          Sign Transactions Automatically
+        </button>
         <button class="button is-danger" @click.prevent="releaseTask(submissionId)">
           Stop Task
         </button>
@@ -77,13 +85,15 @@ import TemplateMedia from '@/components/Template'
 import ReserveTask from '@/components/ReserveTask'
 import InstructionsModal from '@/components/InstructionsModal'
 import SuccessModal from '@/components/SuccessModal'
+import SignModal from '@/components/AutomaticallySignPopup'
 
 export default {
   components: {
     TemplateMedia,
     ReserveTask,
     InstructionsModal,
-    SuccessModal
+    SuccessModal,
+    SignModal
   },
   middleware: ['auth'],
   data () {
@@ -100,7 +110,8 @@ export default {
       loading: false,
       successMessage: null,
       successTitle: null,
-      showInstructionsModal: false
+      showInstructionsModal: false,
+      signAutomaticallyPopup: false
     }
   },
   computed: {
@@ -118,6 +129,9 @@ export default {
   methods: {
     showInstructions (val = true) {
       this.showInstructionsModal = val
+    },
+    showSignModal (val = true) {
+      this.signAutomaticallyPopup = val
     },
     renderTemplate (template, placeholders = {}, options = {}) {
       return new Template(template, placeholders, options).render()

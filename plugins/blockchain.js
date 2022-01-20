@@ -392,6 +392,12 @@ export default (context, inject) => {
         const addresses = this.sdk.account.recoverPublicKey(message, signature)
         return addresses
       },
+      async importPrivateKey (key) {
+        this.account.privateKey = await this.sdk.account.importPrivateKey(key)
+        const authUser = context.$auth.$storage.getUniversal('rememberAccount')
+        authUser.privateKey = this.account.privateKey
+        context.$auth.$storage.setUniversal('rememberAccount', JSON.stringify(authUser))
+      },
 
       handleError (error) {
         console.error(error) // eslint-disable-line no-console
