@@ -141,7 +141,7 @@ export default (context, inject) => {
               account = { accountName, address: this.bsc.wallet.address, privateKey: this.bsc.wallet.privateKey }
             } else {
               this.registerBscListeners(provider)
-              account = { accountName, address: this.bsc.wallet.address }
+              account = { accountName, address: this.bsc.wallet.address, privateKey: rememberAccount.privateKey ? rememberAccount.privateKey : null }
             }
           }
           if (account) {
@@ -393,8 +393,8 @@ export default (context, inject) => {
         return addresses
       },
       async importPrivateKey (key) {
-        this.account.privateKey = await this.sdk.account.importPrivateKey(key)
         const authUser = context.$auth.$storage.getUniversal('rememberAccount')
+        this.account.privateKey = await this.sdk.account.importPrivateKey(key, authUser.blockchain)
         authUser.privateKey = this.account.privateKey
         context.$auth.$storage.setUniversal('rememberAccount', JSON.stringify(authUser))
       },
