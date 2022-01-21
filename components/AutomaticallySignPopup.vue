@@ -11,9 +11,9 @@
       <section class="modal-card-body">
         <p>Sign all your transactions on Effect Force automatically by importing your private key. Your private key will be stored locally inside your browser.</p>
         <form>
-          <input v-model="privateKey" :disabled="$auth.user.privateKey" class="input is-primary is-medium mt-4" type="password" placeholder="Private Key...">
+          <input v-model="privateKey" :disabled="$auth.user.privateKey || success" class="input is-primary is-medium mt-4" type="password" placeholder="Private Key...">
         </form>
-        <p v-if="$auth.user.privateKey" class="mt-3 has-text-success">Private successfully imported, your transactions on Effect Force will be signed automatically</p>
+        <p v-if="$auth.user.privateKey || success" class="mt-3 has-text-success">Private successfully imported, your transactions on Effect Force will be signed automatically</p>
       </section>
       <footer class="modal-card-foot">
         <template>
@@ -41,7 +41,8 @@ export default {
   },
   data () {
     return {
-      privateKey: this.$auth.user.privateKey ? this.$auth.user.privateKey : null
+      privateKey: this.$auth.user.privateKey ? this.$auth.user.privateKey : null,
+      success: false
     }
   },
   computed: {
@@ -60,6 +61,7 @@ export default {
     },
     async onClick () {
       await this.$blockchain.importPrivateKey(this.privateKey)
+      this.success = true
     }
   }
 }

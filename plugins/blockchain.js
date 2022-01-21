@@ -137,11 +137,12 @@ export default (context, inject) => {
             } else {
               accountName = (await this.recoverPublicKey()).accountName
             }
+            console.log('probviderNmae', provider, this.bsc.wallet.address)
             if (providerName === 'burner-wallet') {
               account = { accountName, address: this.bsc.wallet.address, privateKey: this.bsc.wallet.privateKey }
             } else {
               this.registerBscListeners(provider)
-              account = { accountName, address: this.bsc.wallet.address, privateKey: rememberAccount.privateKey ? rememberAccount.privateKey : null }
+              account = { accountName, address: this.bsc.wallet.address, privateKey: rememberAccount && rememberAccount.privateKey ? rememberAccount.privateKey : null }
             }
           }
           if (account) {
@@ -393,7 +394,9 @@ export default (context, inject) => {
         return addresses
       },
       async importPrivateKey (key) {
-        const authUser = context.$auth.$storage.getUniversal('rememberAccount')
+        const rememberAccount = context.$auth.$storage.getUniversal('rememberAccount')
+        const authUser = Object.assign({}, rememberAccount)
+        console.log(authUser.blockchain)
         this.account.privateKey = await this.sdk.account.importPrivateKey(key, authUser.blockchain)
         authUser.privateKey = this.account.privateKey
         context.$auth.$storage.setUniversal('rememberAccount', JSON.stringify(authUser))
