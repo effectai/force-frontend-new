@@ -87,7 +87,7 @@
             <div class="block columns" style="overflow-x:auto">
               <div class="column is-one-third task-tab" @click.prevent="taskTab = 'allTasks'">
                 <div v-if="batch && batch.tasks" class="box" :class="{'is-active': taskTab === 'allTasks'}">
-                  Tasks
+                  All Tasks
                   <br>
                   <span class="">
                     <span><b>{{ batch.tasks.length }}</b></span>
@@ -398,7 +398,7 @@ export default {
       pageR: 1,
       page: 1,
       pageT: 1,
-      perPage: 3,
+      perPage: 20,
       pages: [],
       pagesR: [],
       pagesT: [],
