@@ -19,6 +19,7 @@
     <div id="content">
       <Nuxt />
     </div>
+    <Foot class="footer" />
   </div>
 </template>
 
