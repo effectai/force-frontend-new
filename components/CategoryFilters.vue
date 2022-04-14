@@ -1,77 +1,69 @@
 <template>
-  <div>
-    <!-- <client-only>
+  <div class="mx-auto">
+    <client-only>
       <carousel :pagination-enabled="false" :per-page-custom="[[768, 3], [1024, 5]]" class="columns mb-5">
-        <slide v-for="(dapp, index) in effect_dapps" :key="dapp.value" class="column">
+        <!-- <div class="is-pulled-left pt-4 is-vcentered my-auto">
+          <div v-if="filter" class="tags has-addons">
+            <span
+              class="tag is-capitalized is-large is-info"
+            >{{ filter }}</span>
+            <a class="tag is-delete is-large" @click="$emit('categoryFilter')" />
+          </div>
+        </div> -->
+        <slide v-for="dapp in effect_catagories" :key="dapp.value" class="column">
           <a
             href="#"
-            :class="['dapp-' + index, filter === dapp.value ? 'is-active' : null]"
             class="box pt-1 pb-0"
             @mouseover="dapp.hover = true"
             @mouseleave="dapp.hover = false"
             @click.prevent="onClick(dapp.value)"
           >
             <div class="card-image has-text-centered">
-              <img class="dapp-logo block" :src="dapp.hover || filter === dapp.value ? dapp.whiteUrl : dapp.normalUrl" alt="Image">
+              <h4 class="is-size-5"><b class="is-capitalized">{{ dapp.value }}</b></h4>
             </div>
           </a>
         </slide>
         <slide class="column py-3 is-2">
-          <a href="#" class="box is-flat dapp-null" style="padding: 14px !important" @click.prevent="onClick()">
+          <a href="#" class="box is-flat category-null" style="padding: 14px !important" @click.prevent="onClick()">
             <div class="card-image has-text-centered">
-              <h4 class="is-size-5"><b>Show All</b></h4>
+              <h4 class="is-size-5"><b>All</b></h4>
             </div>
           </a>
         </slide>
       </carousel>
-    </client-only> -->
-    <div class="is-pulled-left pt-4">
-      <div v-if="filter" class="tags has-addons">
-        <span
-          class="tag is-capitalized"
-          :class="{'is-dao': filter === 'dao', 'is-dao': filter === 'dao', 'is-socials': filter === 'socials', 'is-translate': filter === 'translate', 'is-captions': filter === 'captions'}"
-        >{{ filter }}</span>
-        <a class="tag is-delete" @click="$emit('categoryFilter')" />
-      </div>
-    </div>
+    </client-only>
   </div>
 </template>
 <script>
-// import { Carousel, Slide } from 'vue-carousel'
+import { Carousel, Slide } from 'vue-carousel'
 
 export default {
   name: 'CategoryFilters',
   components: {
-    // Carousel,
-    // Slide
+    Carousel,
+    Slide
   },
   props: ['filter'],
   data () {
     return {
-      effect_dapps: {
-        dao: {
+      effect_catagories: {
+        qualifier: {
           hover: false,
-          value: 'dao',
+          value: 'qualifiers',
+          normalUrl: 'https://effect.network/_nuxt/img/effect-dao_h100.62b6528.png',
+          whiteUrl: 'https://effect.network/_nuxt/img/effect-dao_white_h100.8128b59.png'
+        },
+        annotations: {
+          hover: false,
+          value: 'annotations',
           normalUrl: 'https://effect.network/_nuxt/img/effect-dao_h100.62b6528.png',
           whiteUrl: 'https://effect.network/_nuxt/img/effect-dao_white_h100.8128b59.png'
         },
         socials: {
           hover: false,
           value: 'socials',
-          normalUrl: 'https://effect.network/_nuxt/img/effect-socials_h100.4f0f9f8.png',
-          whiteUrl: 'https://effect.network/_nuxt/img/effect-socials_white_h100.aaa70fd.png'
-        },
-        translate: {
-          hover: false,
-          value: 'translate',
-          normalUrl: 'https://effect.network/_nuxt/img/effect-translate_h100.61861ae.png',
-          whiteUrl: 'https://effect.network/_nuxt/img/effect-translate_white_h100.d698b51.png'
-        },
-        captions: {
-          hover: false,
-          value: 'captions',
-          normalUrl: 'https://effect.network/_nuxt/img/effect-captions_h100.2b22d0c.png',
-          whiteUrl: 'https://effect.network/_nuxt/img/effect-captions_white_h100.d746459.png'
+          normalUrl: 'https://effect.network/_nuxt/img/effect-dao_h100.62b6528.png',
+          whiteUrl: 'https://effect.network/_nuxt/img/effect-dao_white_h100.8128b59.png'
         }
       }
     }
@@ -85,16 +77,16 @@ export default {
 </script>
 <style lang="scss" scoped>
   a.box:hover, a.box.is-active {
-    &.dapp-dao {
+    &.category-qualifier {
       background: $dao-color;
     }
-    &.dapp-socials {
+    &.category-socials {
       background:$socials-color;
     }
-    &.dapp-captions {
+    &.category-annotations {
       background: $captions-color;
     }
-    &.dapp-translate {
+    &.category-translate {
       background: $translate-color;
     }
 
@@ -105,13 +97,13 @@ export default {
     align-items: center;
     height: 100%;
 
-    &.dapp-null {
+    &.category-null {
       min-height: 70px
     }
     .card-image {
       padding: 5px;
 
-      .dapp-logo {
+      .category-logo {
         max-height: 50px;
       }
     }
